@@ -5,13 +5,11 @@ public class Directory {
    private int fsizes[];        // each element stores a different file size.
    private char fnames[][];    // each element stores a different file name.
 
-   //Added By Aisha
-   private short iNumbers[];
+   //Added By Aishars[];
    private short fileLocation = 1;	//Start adding files from this location
 
    public Directory( int maxInumber ) { // directory constructor
       this.fsizes = new int[maxInumber];     // maxInumber = max files
-      this.iNumbers = new short[maxInumber];	//A collection of inodes
       for ( int i = 0; i < maxInumber; i++ ){ 
          this.fsizes[i] = 0;                 // all file size initialized to 0
      }
@@ -77,7 +75,7 @@ public class Directory {
    		this.fileLocation--;
       // the corresponding file will be deleted.''
    		return true;
-   	}
+   }
 
    	//Performs a sequential file search
    public short namei( String filename ) {

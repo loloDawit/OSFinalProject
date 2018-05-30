@@ -16,7 +16,9 @@ public class Inode{
 			direct[i] = -1;
 		indirect = -1;
 	}
-
+	void delete(){
+		direct = null;
+	}
 	//retrieving inode from disk
 	Inode(short iNumber){
 		byte[] buffer = new byte[512];
@@ -36,8 +38,6 @@ public class Inode{
 			offset += 2;
 			this.indirect = SysLib.bytes2short(buffer,offset);
 		}
-
-
 	}
 
 	//save to disk as i-th inode
@@ -54,4 +54,6 @@ public class Inode{
 
 		return SysLib.rawwrite((int)(iNumber / 16) + 1, buffer);
 	}
+
+
 }

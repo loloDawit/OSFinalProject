@@ -1,6 +1,8 @@
+import java.util.*;
+
 public class FileTable {
 
-   private Vector table;         // the actual entity of this file table
+   private Vector<FileTableEntry> table;         // the actual entity of this file table
    private Directory dir;        // the root directory 
 
    public FileTable( Directory directory ) { // constructor
@@ -17,11 +19,17 @@ public class FileTable {
       // return a reference to this file (structure) table entry
    }
 
-   public synchronized boolean ffree( FileTableEntry e ) {
-      // receive a file table entry reference
+   public synchronized boolean ffree( FileTableEntry e ) {//receive a file table entry reference
       // save the corresponding inode to the disk
+     Inode inode = e.getInode();
+     inode.toDisk(inode.getNodeNumber());
       // free this file table entry.
+     for(int i = 0; i < table.size(); i++){
+         
+     }
       // return true if this file table entry found in my table
+
+     return false;
    }
 
    public synchronized boolean fempty( ) {
