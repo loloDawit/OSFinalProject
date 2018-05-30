@@ -25,7 +25,7 @@ public class FileTable {
      inode.toDisk(inode.getNodeNumber());
       // free this file table entry.
      for(int i = 0; i < table.size(); i++){
-         
+         if(e.getNodeNumber())
      }
       // return true if this file table entry found in my table
 
