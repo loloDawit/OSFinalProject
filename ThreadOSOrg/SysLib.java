@@ -21,6 +21,7 @@ public class SysLib {
 				 Kernel.EXIT, 0, null );
     }
 
+
     public static int sleep( int milliseconds ) {
 	return Kernel.interrupt( Kernel.INTERRUPT_SOFTWARE,
 				 Kernel.SLEEP, milliseconds, null );
@@ -56,47 +57,51 @@ public class SysLib {
 				 Kernel.RAWWRITE, blkNumber, b );
     }
 
-    // ADDED 
 
-    public static int format( int files) {
+    public static int format( int files ) {
         return Kernel.interrupt( Kernel.INTERRUPT_SOFTWARE,
-				 Kernel.FORMAT, files, null );
+                 Kernel.FORMAT, files, null);
     }
-
-    public static int open ( String fileName, String mode) {
-        String [] param = {fileName, mode};
+    public static int open(String fileName, String mode) {
+        String [] params = {fileName, mode};
         return Kernel.interrupt( Kernel.INTERRUPT_SOFTWARE,
-				 Kernel.READ, 0, param );
+                 Kernel.FORMAT, 0, params);
     }
-
-    public static int read ( int fd, byte[] buffer) {
+    public static int read( int fd, byte buffer[] ) {
         return Kernel.interrupt( Kernel.INTERRUPT_SOFTWARE,
-				 Kernel.READ, fd, buffer );
+                 Kernel.READ, fd, buffer );
     }
-    public static int write ( int fd, byte[] buffer) {
+    public static int write( int fd, byte buffer[] ) {
         return Kernel.interrupt( Kernel.INTERRUPT_SOFTWARE,
-				 Kernel.WRITE, fd, buffer );
+                 Kernel.WRITE, fd, buffer );
     }
-    public static int seek ( int fd, int offset, int whence) {
-        int [] param = {offset, whence }; 
+    public static int seek( int fd, int offset, int whence ) {
+        int [] params = {offset, whence};
         return Kernel.interrupt( Kernel.INTERRUPT_SOFTWARE,
-				 Kernel.SEEK, fd, param );
+                 Kernel.SEEK, fd, params);
     }
-    public static int close ( int fd ) {
+    public static int close( int fd ) {
         return Kernel.interrupt( Kernel.INTERRUPT_SOFTWARE,
-				 Kernel.CLOSE , fd, null );
+                 Kernel.CLOSE, fd, null);
     }
-    public static int delete ( String fileName) {
-         
+    public static int delete( String fileName ) {
         return Kernel.interrupt( Kernel.INTERRUPT_SOFTWARE,
-				 Kernel.READ, 0, fileName );
+                 Kernel.DELETE, 0, fileName);
     }
-    public static int fsize ( int fd ) {
+    public static int fsize( int fd ) {
         return Kernel.interrupt( Kernel.INTERRUPT_SOFTWARE,
-				 Kernel.READ, fd, null );
+                 Kernel.SIZE, fd, null );
     }
 
-    // ---------
+
+
+
+
+
+
+
+
+
 
     public static int sync( ) {
         return Kernel.interrupt( Kernel.INTERRUPT_SOFTWARE,
