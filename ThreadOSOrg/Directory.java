@@ -48,11 +48,31 @@ public class Directory {
    }
 
    public byte[] directory2bytes( ) {
-      // converts and return Directory information into a plain byte array
-      // this byte array will be written back to disk
-      // note: only meaningfull directory information should be converted
-      // into bytes.
-   		return new byte[12];
+     int offset = 0;
+        int size = (fsize.length*4) + (fnames.length*maxChars*2); 
+
+        byte data[] = new byte[size];
+
+        for (int i = 0; i < fsizes.length; i++) {
+
+            offset +=4; 
+            SysLib.int2bytes(fsizes[i], data, 0);
+
+        }
+        // Loop through the file name and convert it to bytes 
+        
+        for (int i = 0; i < fnames.length; i++) {
+            offset += maxChars * 2
+            // now convert the char array to a String
+            String fname = new String(fnames[i]);
+
+            // next, convert the string to byte array
+            byte charData[] = fname.getBytes();
+
+            // finally copy it to array
+            System.arraycopy(charData, 0, data, offset, charData.length);
+        }
+        return data;
    }
 
    public short ialloc( String filename ) {

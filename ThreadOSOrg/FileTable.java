@@ -23,13 +23,20 @@ public class FileTable {
       // save the corresponding inode to the disk
      Inode inode = e.getInode();
      inode.toDisk(inode.getNodeNumber());
-      // free this file table entry.
-     for(int i = 0; i < table.size(); i++){
-         if(e.getNodeNumber())
+      // free this file table entry by overwriting it
+     int i = 0; 
+     while((i < table.size()) && e.getNodeNumber() != table[i].getNodeNumber())
+     {
+       i++;
      }
-      // return true if this file table entry found in my table
+     if(i + 1 == table.size()) return false;//The entry doesn't exit
 
-     return false;
+     //Overwrites the table entry
+     for(; i < table.size(); i++){
+         table[i] = table[i+1];
+     }
+
+     return true;
    }
 
    public synchronized boolean fempty( ) {
