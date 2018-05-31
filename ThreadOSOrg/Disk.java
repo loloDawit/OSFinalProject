@@ -131,35 +131,35 @@ public class Disk extends Thread {
 
     public void run ( ) {
 	
-	while ( true ) {
-	    waitCommand( );
-	    seek( );
-	    // System.out.println( "Disk: command = " + command );
-	    switch( command ) {
-	    case READ:
-		System.arraycopy( data, targetBlockId * blockSize, 
-				  buffer, 0, 
-				  blockSize );
-		break;
-	    case WRITE:
-		System.arraycopy( buffer, 0, 
-				  data, targetBlockId * blockSize, 
-				  blockSize );
-		break;
-	    case SYNC:
-		try {
-		    FileOutputStream ofstream = new FileOutputStream( "DISK" );
-		    ofstream.write( data );
-		    ofstream.close( );
-		} catch ( FileNotFoundException e ) {
-		    SysLib.cerr( e.toString( ) );
-		} catch ( IOException e ) {
-		    SysLib.cerr( e.toString( ) );
+		while ( true ) {
+		    waitCommand( );
+		    seek( );
+		    // System.out.println( "Disk: command = " + command );
+		    switch( command ) {
+		    case READ:
+			System.arraycopy( data, targetBlockId * blockSize, 
+					  buffer, 0, 
+					  blockSize );
+			break;
+		    case WRITE:
+			System.arraycopy( buffer, 0, 
+					  data, targetBlockId * blockSize, 
+					  blockSize );
+			break;
+		    case SYNC:
+			try {
+			    FileOutputStream ofstream = new FileOutputStream( "DISK" );
+			    ofstream.write( data );
+			    ofstream.close( );
+			} catch ( FileNotFoundException e ) {
+			    SysLib.cerr( e.toString( ) );
+			} catch ( IOException e ) {
+			    SysLib.cerr( e.toString( ) );
+			}
+			// SysLib.cerr( "threadOS: DISK synchronized\n" );
+			break;
+		    }
+		    finishCommand( );
 		}
-		// SysLib.cerr( "threadOS: DISK synchronized\n" );
-		break;
-	    }
-	    finishCommand( );
 	}
-    }
 }
