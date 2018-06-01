@@ -22,9 +22,9 @@ public class Directory {
       return SysLib.bytes2short(data,  offset);
    }
 
-//Complete::
-// assumes data[] received directory information from disk
-// initializes the Directory instance with this data[]
+   //Complete::
+   // assumes data[] received directory information from disk
+   // initializes the Directory instance with this data[]
    public void bytes2directory( byte data[] ) {
    	int offset  = maxChars * 2 + 4;         
       int blkNumber = 0;           
@@ -41,7 +41,7 @@ public class Directory {
       } 
    }
 
-//Completed::
+   //Completed::
    public byte[] directory2bytes( ) {
       int offset = maxChars * 2 + 4;
       int size = (fsizes.length*4) + (fnames.length*maxChars*2); 
