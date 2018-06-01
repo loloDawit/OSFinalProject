@@ -65,7 +65,7 @@ public class SysLib {
     public static int open(String fileName, String mode) {
         String [] params = {fileName, mode};
         return Kernel.interrupt( Kernel.INTERRUPT_SOFTWARE,
-                 Kernel.FORMAT, 0, params);
+                 Kernel.OPEN, 0, params);
     }
     public static int read( int fd, byte buffer[] ) {
         return Kernel.interrupt( Kernel.INTERRUPT_SOFTWARE,

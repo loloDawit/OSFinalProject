@@ -179,7 +179,6 @@ public class Kernel
                   }
                   //From PowerPoint
                   if((myTcb = scheduler.getMyTcb()) != null){
-                        System.out.println("I am in Kernel");
                   		FileTableEntry ftEnt = myTcb.getFtEnt(param);
                   		if(ftEnt != null){
                   			return fs.write(ftEnt, (byte[]) args);

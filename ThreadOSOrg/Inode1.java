@@ -1,3 +1,4 @@
+//Each node describes one file
 public class Inode{
 	private final static int iNodeSize = 32; //fix to 32 bytes
 	private final static int directSize = 11; //# of direct pointers
@@ -16,16 +17,13 @@ public class Inode{
 			direct[i] = -1;
 		indirect = -1;
 	}
-	void delete(){
-		direct = null;
-	}
 	//retrieving inode from disk
 	Inode(short iNumber){
 		byte[] buffer = new byte[512];
 		int empty = SysLib.rawread(((int)iNumber / 16) + 1, buffer);
 
 		if(empty > 0){
-			int offset = 0; 
+			int offset = (iNumber % 16)*iNodeSize; 
 			this.length = SysLib.bytes2int(buffer, offset);
 			offset += 4;
 			this.count = SysLib.bytes2short(buffer, offset );
