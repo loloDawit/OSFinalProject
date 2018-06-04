@@ -1,5 +1,5 @@
 public class SuperBlock{
-    private final int numberOfInodeBlocks = 64;
+    public final int numberOfInodeBlocks = 64;
     public int totalBlocks; // the number of disk blocks
     public int inodeBlocks; // the number of inodes
     public int freeList;    // the block number of the free list's head.
