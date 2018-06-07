@@ -9,7 +9,7 @@
  */
 
 public class FileSystem {
-	private SuperBlock superblock;
+	private Superblock superblock;
 	private Directory directory;
 	private FileTable filetable;
 
@@ -20,10 +20,10 @@ public class FileSystem {
 	 */
 	public FileSystem(int diskBlocks) {
 		// create a superblock, and format disk with 64 nodes by default
-		this.superblock = new SuperBlock(diskBlocks);
+		this.superblock = new Superblock(diskBlocks);
 
 		// create directory, and register "/" in directory entry 0
-		this.directory = new Directory(superblock.numberOfInodeBlocks);
+		this.directory = new Directory(superblock.inodeBlocks);
 
 		this.filetable = new FileTable(directory);
 
@@ -211,13 +211,10 @@ public class FileSystem {
 
 				currBlock = (short) superblock.getFreeBlock();
 
-				//if (ftEnt.inode.setDirectPointers(currBlock)) {
-				// if (ftEnt.inode.registerIndexBlock(currBlock)) {
-				// } else 
-				if (ftEnt.inode.registerIndexBlock(currBlock)) {
-					//else if (ftEnt.inode.setIndexBlock(currBlock)) {
+				if (ftEnt.inode.setDirectPointers(currBlock)) {
+				} else if (ftEnt.inode.setIndexBlock(currBlock)) {
 					currBlock = (short) superblock.getFreeBlock();
-					// ftEnt.inode.setIndirectPointers(currBlock);
+					ftEnt.inode.setIndirectPointers(currBlock);
 				} else {
 					// no more free blocks
 					SysLib.cout("no more free blocks\n");
@@ -277,15 +274,14 @@ public class FileSystem {
 			// free the direct blocks first
 			for (int i = 0; i < ftEnt.inode.direct.length; i++) {
 				if (ftEnt.inode.direct[i] != -1) {
-					// this.superblock.returnFreeBlock(ftEnt.inode.direct[i]); // free this block
-					 this.superblock.returnBlock(ftEnt.inode.direct[i]); // free this block
+					this.superblock.returnFreeBlock(ftEnt.inode.direct[i]); // free this block
 					ftEnt.inode.direct[i] = -1;
 				} else {
 					return true;
 				}
 			}
 			// free the indirect blocks
-			short indirectBlockNum = ftEnt.inode.findIndexBlock();//ftEnt.inode.getIndexBlockNumber();
+			short indirectBlockNum = ftEnt.inode.getIndexBlockNumber();
 			if (indirectBlockNum != -1) {
 				byte buffer[] = new byte[512];
 				SysLib.rawread(indirectBlockNum, buffer);
@@ -295,7 +291,7 @@ public class FileSystem {
 				for (int i = 0; i < 256; i++) {
 					int indirectBlockPtr = SysLib.bytes2short(buffer, offset);
 					if (indirectBlockPtr != -1) {
-						this.superblock.returnBlock(indirectBlockPtr);
+						this.superblock.returnFreeBlock(indirectBlockPtr);
 						SysLib.short2bytes(indexPtr, buffer, offset);
 						offset += 2;
 					} else {
